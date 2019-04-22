@@ -1,0 +1,49 @@
+body{
+  font-family: fantasy;
+  box-sizing: border-box;
+}
+
+h1{
+  text-align: center;
+}
+
+#world div{
+  width: 50px;
+  height: 50px;
+}
+
+#world{
+  display: flex;
+  flex-wrap: wrap;
+  border: solid;
+  margin: auto;
+  width: 450px;
+  height: 450px;
+}
+
+.empty{
+  background-color: white;
+}
+
+.breakable{
+  background-color: blue;
+  /* background-image: url("../images/destroyable brick.jpeg"); */
+}
+
+.non-breakable{
+  background-color: green;
+  /* background-image: url("../images/non-destroyable brick.jpg"); */
+}
+
+.player{
+  background-color: red;
+  /* background-image: url("../images/BombermanR_White.png"); */
+}
+
+.goal{
+  background-color: orange;
+}
+
+.bomb{
+
+}
