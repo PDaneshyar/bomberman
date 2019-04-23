@@ -7,6 +7,10 @@ h1{
   text-align: center;
 }
 
+#lives{
+  text-align: center;
+}
+
 #world div{
   width: 60px;
   height: 60px;

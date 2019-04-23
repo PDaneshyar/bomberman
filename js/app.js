@@ -18,9 +18,14 @@ var map = [[4,1,0,0,0,0,0,0,0],
            [0,0,0,0,0,0,0,0,5]];
 
 var player = {x: 0, y: 0};
+var lives = 2;
 
 $(function()
 {
+  var header = $("#lives");
+
+
+  header.html(`Lives: ${lives}`);
   drawWorld();
 
   playerControl();
@@ -132,11 +137,13 @@ function playerControl()
       // if the space you want to move to is free
         if (map[player.y][player.x - 1] === 1)
         {
+          // if a bomb has been dropped then tile will remain a bomb
           if (map[player.y][player.x] === 6)
           {
             player.x--;
             map[player.y][player.x] = 4;
           }
+          // if no bomb placed tile you move from will be empty
           else
           {
             map[player.y][player.x] = 1;
@@ -200,6 +207,7 @@ function playerControl()
         if (map[player.y][player.x] !== 6)
         {
           map[player.y][player.x] = 6;
+          Bomb(player.y, player.x);
         }
         break;
       default:
@@ -211,11 +219,65 @@ function playerControl()
 
 // function to spawn bomb on button press
 // bomb delay/blast
-function Bomb()
+function Bomb(bombPosY, bombPosX)
 {
-  // setTimeout(function()
-  // {
-  // }, 3000);
+  setTimeout(function()
+  {
+    // destroys blocks/player to the right
+    if (bombPosY != 0)
+    {
+      // explodes space above
+      if (map[bombPosY -1][bombPosX] === 2 || map[bombPosY -1][bombPosX] === 4)
+      {
+        map[bombPosY - 1][bombPosX] = 1;
+      }
+    }
+
+    if (bombPosX != 8)
+    {
+      if (map[bombPosY][bombPosX+1] === 2 || map[bombPosY][bombPosX+1] === 4)
+      {
+        map[bombPosY][bombPosX + 1] = 1;
+      }
+    }
+
+    // explodes space to the left
+    if (bombPosX != 0)
+    {
+      if (map[bombPosY][bombPosX-1] === 2 || map[bombPosY][bombPosX-1] === 4)
+      {
+        map[bombPosY][bombPosX - 1] = 1;
+      }
+    }
+
+    // explodes space below
+    if (bombPosY != 8)
+    {
+      if (map[bombPosY +1][bombPosX] === 2 || map[bombPosY +1][bombPosX] === 4)
+      {
+        map[bombPosY + 1][bombPosX] = 1;
+      }
+    }
+
+    map[bombPosY][bombPosX] = 1;
+    console.log(map);
+    if (playerDead)
+    {
+      map[0][0] = 4;
+      lives--;
+    }
+    drawWorld();
+  }, 1000);
 }
 
-// function to destroy blocks nearby after explosion
+// checks if player is dead
+function playerDead()
+{
+  for (var i = 0; i < map.length; i++)
+  {
+    if (map[i].contains(4))
+    {
+      return 0;
+    }
+  }
+}
