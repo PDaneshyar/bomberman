@@ -23,7 +23,7 @@ $(function()
 {
   drawWorld();
 
-  playerMove();
+  playerControl();
 })
 
 // draws the world with all the required tiles based on the map array
@@ -120,8 +120,8 @@ function drawWorld()
   }
 }
 
-// function to move player
-function playerMove()
+// function to control player
+function playerControl()
 {
   document.onkeydown = function(e)
   {
@@ -183,7 +183,7 @@ function playerMove()
       case 40:
         if (map[player.y + 1][player.x] === 1)
         {
-          if (map[player.y][player.x])
+          if (map[player.y][player.x] === 6)
           {
             player.y++;
             map[player.y][player.x] = 4;
