@@ -23,51 +23,7 @@ $(function()
 {
   drawWorld();
 
-  document.onkeydown = function(e)
-  {
-    switch (e.keyCode)
-    {
-      // left
-      case 37:
-      if (map[player.y][player.x - 1] === 1)
-      {
-        map[player.y][player.x] = 1;
-        player.x-= 1;
-        map[player.y][player.x] = 4;
-      }
-      break;
-      // up
-      case 38:
-      if(map[player.y - 1][player.x] === 1)
-      {
-        map[player.y][player.x] = 1;
-        player.y--;
-        map[player.y][player.x] = 4;
-      }
-      break;
-      // right
-      case 39:
-      if (map[player.y][player.x + 1] === 1)
-      {
-        map[player.y][player.x] = 1;
-        player.x++;
-        map[player.y][player.x] = 4;
-      }
-      break;
-      // down
-      case 40:
-      if (map[player.y + 1][player.x] === 1)
-      {
-        map[player.y][player.x] = 1;
-        player.y++;
-        map[player.y][player.x] = 4;
-      }
-      break;
-      default:
-      drawWorld();
-    }
-    drawWorld();
-  }
+  playerMove();
 })
 
 // draws the world with all the required tiles based on the map array
@@ -88,48 +44,178 @@ function drawWorld()
         switch (random)
         {
           case 1:
-            $("#world").append(`<div class="empty"></div>`);
+            $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
+            $(`#a${i}${j}`).css(
+              {'left': `${j * 60}px`,
+               'top': `${i * 60}px`
+             });
             map[i][j] = 1;
             break;
           case 2:
-            $("#world").append(`<div class="breakable"></div>`);
+            $("#world").append(`<div class="breakable" id="a${i}${j}"></div>`);
+            $(`#a${i}${j}`).css(
+              {'left': `${j * 60}px`,
+               'top': `${i * 60}px`
+             });
             map[i][j] = 2
             break;
           default:
-            $("#world").append(`<div class="empty"></div>`);
+            $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
+            $(`#a${i}${j}`).css(
+              {'left': `${j * 60}px`,
+               'top': `${i * 60}px`
+             });
             map[i][j] = 1;
         }
       }
       else if (map[i][j] === 1)
       {
-        $("#world").append(`<div class="empty"></div>`);
+        $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
       }
       else if (map[i][j] === 2)
       {
-        $("#world").append(`<div class="breakable"></div>`);
+        $("#world").append(`<div class="breakable" id="a${i}${j}"></div>`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
       }
       else if (map[i][j] === 3)
       {
-        $("#world").append(`<div class="non-breakable"></div>`);
+        $("#world").append(`<div class="non-breakable"id="a${i}${j}"></div>`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
       }
       else if (map[i][j] === 4)
       {
-        $("#world").append(`<div class="player"></div>`);
+        $("#world").append(`<div class="player" id="a${i}${j}"></div>`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
       }
       else if (map[i][j] === 5)
       {
-        $("#world").append(`<div class="goal"></div>`);
+        $("#world").append(`<div class="goal" id="a${i}${j}"></div>`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
       }
-      console.log(map[i][j]);
+      else if (map[i][j] === 6)
+      {
+        $(`#world`).append(`<img class="bomb">`);
+        $(`#a${i}${j}`).css(
+          {'left': `${j * 60}px`,
+           'top': `${i * 60}px`
+         });
+      }
     }
   }
 }
 
 // function to move player
-
-
+function playerMove()
+{
+  document.onkeydown = function(e)
+  {
+    switch (e.keyCode)
+    {
+      // left
+      case 37:
+      // if the space you want to move to is free
+        if (map[player.y][player.x - 1] === 1)
+        {
+          if (map[player.y][player.x] === 6)
+          {
+            player.x--;
+            map[player.y][player.x] = 4;
+          }
+          else
+          {
+            map[player.y][player.x] = 1;
+            player.x--;
+            map[player.y][player.x] = 4;
+          }
+        }
+      break;
+      // up
+      case 38:
+        if(map[player.y - 1][player.x] === 1)
+        {
+          if (map[player.y][player.x] === 6)
+          {
+            player.y--;
+            map[player.y][player.x] = 4;
+          }
+          else
+          {
+            map[player.y][player.x] = 1;
+            player.y--;
+            map[player.y][player.x] = 4;
+          }
+        }
+      break;
+      // right
+      case 39:
+        if (map[player.y][player.x + 1] === 1)
+        {
+          if (map[player.y][player.x] === 6)
+          {
+            player.x++;
+            map[player.y][player.x] = 4;
+          }
+          else
+          {
+            map[player.y][player.x] = 1;
+            player.x++;
+            map[player.y][player.x] = 4;
+          }
+        }
+      break;
+      // down
+      case 40:
+        if (map[player.y + 1][player.x] === 1)
+        {
+          if (map[player.y][player.x])
+          {
+            player.y++;
+            map[player.y][player.x] = 4;
+          }
+          else
+          {
+            map[player.y][player.x] = 1;
+            player.y++;
+            map[player.y][player.x] = 4;
+          }
+        }
+      break;
+      case 32:
+        if (map[player.y][player.x] !== 6)
+        {
+          map[player.y][player.x] = 6;
+        }
+        break;
+      default:
+      drawWorld();
+    }
+    drawWorld();
+  }
+}
 
 // function to spawn bomb on button press
 // bomb delay/blast
+function Bomb()
+{
+  // setTimeout(function()
+  // {
+  // }, 3000);
+}
 
 // function to destroy blocks nearby after explosion
