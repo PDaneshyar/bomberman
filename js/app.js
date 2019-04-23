@@ -29,22 +29,42 @@ $(function()
     {
       // left
       case 37:
-      map[player.y][player.x] = 1;
-        break;
+      if (map[player.y][player.x - 1] === 1)
+      {
+        map[player.y][player.x] = 1;
+        player.x-= 1;
+        map[player.y][player.x] = 4;
+      }
+      break;
       // up
       case 38:
-
-        break;
+      if(map[player.y - 1][player.x] === 1)
+      {
+        map[player.y][player.x] = 1;
+        player.y--;
+        map[player.y][player.x] = 4;
+      }
+      break;
       // right
       case 39:
-
-        break;
+      if (map[player.y][player.x + 1] === 1)
+      {
+        map[player.y][player.x] = 1;
+        player.x++;
+        map[player.y][player.x] = 4;
+      }
+      break;
       // down
       case 40:
-
-        break;
+      if (map[player.y + 1][player.x] === 1)
+      {
+        map[player.y][player.x] = 1;
+        player.y++;
+        map[player.y][player.x] = 4;
+      }
+      break;
       default:
-
+      drawWorld();
     }
     drawWorld();
   }
@@ -69,12 +89,15 @@ function drawWorld()
         {
           case 1:
             $("#world").append(`<div class="empty"></div>`);
+            map[i][j] = 1;
             break;
           case 2:
             $("#world").append(`<div class="breakable"></div>`);
+            map[i][j] = 2
             break;
           default:
             $("#world").append(`<div class="empty"></div>`);
+            map[i][j] = 1;
         }
       }
       else if (map[i][j] === 1)
