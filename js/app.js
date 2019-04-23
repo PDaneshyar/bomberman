@@ -6,6 +6,7 @@
 // 5 = <div class="goal"></div>
 // 6 = <div class="bomb"></div>
 
+// array symbolises the game board
 var map = [[4,1,0,0,0,0,0,0,0],
            [1,3,0,3,0,3,0,3,0],
            [0,0,0,0,0,0,0,0,0],
@@ -16,12 +17,40 @@ var map = [[4,1,0,0,0,0,0,0,0],
            [0,3,0,3,0,3,0,3,0],
            [0,0,0,0,0,0,0,0,5]];
 
+var player = {x: 0, y: 0};
 
 $(function()
 {
   drawWorld();
+
+  document.onkeydown = function(e)
+  {
+    switch (e.keyCode)
+    {
+      // left
+      case 37:
+      map[player.y][player.x] = 1;
+        break;
+      // up
+      case 38:
+
+        break;
+      // right
+      case 39:
+
+        break;
+      // down
+      case 40:
+
+        break;
+      default:
+
+    }
+    drawWorld();
+  }
 })
 
+// draws the world with all the required tiles based on the map array
 function drawWorld()
 {
   $("#world").html("");
@@ -70,13 +99,12 @@ function drawWorld()
       }
       console.log(map[i][j]);
     }
-
-    // inserts a break after every row
-    // $("#world").append("<br>");
   }
 }
 
 // function to move player
+
+
 
 // function to spawn bomb on button press
 // bomb delay/blast
