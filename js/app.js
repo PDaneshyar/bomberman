@@ -50,76 +50,49 @@ function drawWorld()
         {
           case 1:
             $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
-            $(`#a${i}${j}`).css(
-              {'left': `${j * 60}px`,
-               'top': `${i * 60}px`
-             });
+            absolutePositions(i,j);
             map[i][j] = 1;
             break;
           case 2:
             $("#world").append(`<div class="breakable" id="a${i}${j}"></div>`);
-            $(`#a${i}${j}`).css(
-              {'left': `${j * 60}px`,
-               'top': `${i * 60}px`
-             });
+            absolutePositions(i,j);
             map[i][j] = 2
             break;
           default:
             $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
-            $(`#a${i}${j}`).css(
-              {'left': `${j * 60}px`,
-               'top': `${i * 60}px`
-             });
+            absolutePositions(i,j);
             map[i][j] = 1;
         }
       }
       else if (map[i][j] === 1)
       {
         $("#world").append(`<div class="empty" id="a${i}${j}"></div>`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j);
       }
       else if (map[i][j] === 2)
       {
         $("#world").append(`<div class="breakable" id="a${i}${j}"></div>`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j);
       }
       else if (map[i][j] === 3)
       {
         $("#world").append(`<div class="non-breakable"id="a${i}${j}"></div>`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j)
       }
       else if (map[i][j] === 4)
       {
         $("#world").append(`<div class="player" id="a${i}${j}"></div>`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j);
       }
       else if (map[i][j] === 5)
       {
         $("#world").append(`<div class="goal" id="a${i}${j}"></div>`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j);
       }
       else if (map[i][j] === 6)
       {
         $(`#world`).append(`<img class="bomb">`);
-        $(`#a${i}${j}`).css(
-          {'left': `${j * 60}px`,
-           'top': `${i * 60}px`
-         });
+        absolutePositions(i,j);
       }
     }
   }
@@ -261,23 +234,41 @@ function Bomb(bombPosY, bombPosX)
 
     map[bombPosY][bombPosX] = 1;
     console.log(map);
-    if (playerDead)
-    {
-      map[0][0] = 4;
-      lives--;
-    }
     drawWorld();
+    if (playerDead())
+    {
+      console.log("dead");
+      map[0][0] = 4;
+      player.x = 0;
+      player.y = 0;
+      lives--;
+
+      drawWorld();
+    }
   }, 1000);
 }
 
 // checks if player is dead
 function playerDead()
 {
+  var dead = true;
+
   for (var i = 0; i < map.length; i++)
   {
-    if (map[i].contains(4))
+    if (map[i].includes(4))
     {
-      return 0;
+      dead = false;
     }
   }
+
+  return dead;
+}
+
+// sets the top and left positions of each tile
+function absolutePositions(i, j)
+{
+  $(`#a${i}${j}`).css(
+    {'left': `${j * 60}px`,
+     'top': `${i * 60}px`
+   });
 }
