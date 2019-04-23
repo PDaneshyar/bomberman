@@ -22,13 +22,13 @@ var lives = 2;
 
 $(function()
 {
-  var header = $("#lives");
+  $("#lives").html(`Lives: ${lives}`);
 
-
-  header.html(`Lives: ${lives}`);
   drawWorld();
-
-  playerControl();
+  if (lives > 0)
+  {
+    playerControl();
+  }
 })
 
 // draws the world with all the required tiles based on the map array
@@ -103,11 +103,13 @@ function playerControl()
 {
   document.onkeydown = function(e)
   {
-    switch (e.keyCode)
+    if (lives >= 0)
     {
-      // left
-      case 37:
-      // if the space you want to move to is free
+      switch (e.keyCode)
+      {
+        // left
+        case 37:
+        // if the space you want to move to is free
         if (map[player.y][player.x - 1] === 1)
         {
           // if a bomb has been dropped then tile will remain a bomb
@@ -124,9 +126,9 @@ function playerControl()
             map[player.y][player.x] = 4;
           }
         }
-      break;
-      // up
-      case 38:
+        break;
+        // up
+        case 38:
         if(map[player.y - 1][player.x] === 1)
         {
           if (map[player.y][player.x] === 6)
@@ -141,9 +143,9 @@ function playerControl()
             map[player.y][player.x] = 4;
           }
         }
-      break;
-      // right
-      case 39:
+        break;
+        // right
+        case 39:
         if (map[player.y][player.x + 1] === 1)
         {
           if (map[player.y][player.x] === 6)
@@ -158,9 +160,9 @@ function playerControl()
             map[player.y][player.x] = 4;
           }
         }
-      break;
-      // down
-      case 40:
+        break;
+        // down
+        case 40:
         if (map[player.y + 1][player.x] === 1)
         {
           if (map[player.y][player.x] === 6)
@@ -175,18 +177,20 @@ function playerControl()
             map[player.y][player.x] = 4;
           }
         }
-      break;
-      case 32:
+        break;
+        case 32:
         if (map[player.y][player.x] !== 6)
         {
           map[player.y][player.x] = 6;
           Bomb(player.y, player.x);
         }
         break;
-      default:
+        default:
+        drawWorld();
+      }
       drawWorld();
     }
-    drawWorld();
+
   }
 }
 
@@ -233,17 +237,21 @@ function Bomb(bombPosY, bombPosX)
     }
 
     map[bombPosY][bombPosX] = 1;
-    console.log(map);
     drawWorld();
-    if (playerDead())
+
+    if (playerDead() && lives > 0)
     {
-      console.log("dead");
       map[0][0] = 4;
       player.x = 0;
       player.y = 0;
       lives--;
-
+      $("#lives").html(`Lives: ${lives}`);
       drawWorld();
+    }
+    else if (playerDead() && lives === 0)
+    {
+      $("#lives").html("GAME OVER!!");
+      lives--;
     }
   }, 1000);
 }
