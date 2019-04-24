@@ -1,13 +1,20 @@
 body{
   font-family: fantasy;
   box-sizing: border-box;
+  background-image: url('../images/bomberman-wallpaper-18.jpg');
+  background-size: 100vw 100vh;
 }
 
 h1{
   text-align: center;
+  color: cyan;
 }
 
-#lives{
+h2{
+  color: cyan;
+}
+
+.scores{
   text-align: center;
 }
 
@@ -17,11 +24,16 @@ h1{
   position: absolute;
 }
 
+#instructions{
+  color: black;
+}
+
 #world{
   display: flex;
   flex-wrap: wrap;
   border: solid;
   margin: auto;
+  background-color: olivedrab;
   width: 540px;
   height: 540px;
   position: relative;
@@ -46,10 +58,10 @@ h1{
   background-color: grey;
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Bomberman/Front/Bman_F_f00.png");
   background-size: 100% 100%;
-  z-index: 20;
 }
 
 .player2{
+  background-color: grey;
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Creep/Front/Creep_F_f00.png");
   background-size: 100%;
 }
@@ -57,5 +69,10 @@ h1{
 .bomb{
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Bomb/Bomb_f01.png");
   background-size: 100% 100%;
-  z-index: 10;
+}
+
+.flame{
+  background-color: orange;
+  background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Flame/Flame_f00.png");
+  background-size: 100%;
 }

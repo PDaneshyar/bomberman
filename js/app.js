@@ -5,8 +5,8 @@
 // 4 = <div class="player1"></div>
 // 5 = <div class="player2"></div>
 // 6 = <div class="bomb"></div>
+// 7 = <div class="flame"></div>
 
-// array symbolises the game board
 var map = [[4,1,0,0,0,0,0,0,0],
            [1,3,0,3,0,3,0,3,0],
            [0,0,0,0,0,0,0,0,0],
@@ -22,13 +22,21 @@ var player2 = {name: "Player2", indicator: 5, lives: 2, x: 8, y: 8};
 
 $(function()
 {
+
   $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
   $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
 
-  drawWorld();
+  document.onkeyup = function(e)
+  {
+    if (e.keyCode === 13)
+    {
+      drawWorld();
 
-  player1Control();
-  player2Control();
+      player1Control();
+      player2Control();
+    }
+  }
+
 })
 
 // draws the world with all the required tiles based on the map array
@@ -92,6 +100,11 @@ function drawWorld()
       else if (map[i][j] === 6)
       {
         $(`#world`).append(`<img class="bomb">`);
+        absolutePositions(i,j);
+      }
+      else if (map[i][j] === 7)
+      {
+        $("#world").append(`<div class="flame" id="a${i}${j}"></div>`);
         absolutePositions(i,j);
       }
     }
@@ -267,7 +280,7 @@ function player2Control()
         break;
         // down
         case 83:
-        if (player2.y !== 8) 
+        if (player2.y !== 8)
         {
           if (map[player2.y + 1][player2.x] === 1)
           {
@@ -306,39 +319,68 @@ function Bomb(player1, player2, bombPosY, bombPosX)
 {
   setTimeout(function()
   {
+
+    // explodes space above
     if (bombPosY != 0)
     {
-      // explodes space above
-      if (map[bombPosY - 1][bombPosX] === 2 || map[bombPosY - 1][bombPosX] === 4 || map[bombPosY - 1][bombPosX] === 5)
+      if (map[bombPosY-1][bombPosX] === 1 || map[bombPosY-1][bombPosX] === 2
+        || map[bombPosY-1][bombPosX] === 4 || map[bombPosY-1][bombPosX] === 5)
       {
-        map[bombPosY - 1][bombPosX] = 1;
+        map[bombPosY - 1][bombPosX] = 7;
+        drawWorld();
+        setTimeout(function()
+        {
+          map[bombPosY - 1][bombPosX] = 1;
+          drawWorld();
+        }, 500)
       }
     }
 
     // explodes space to the right
     if (bombPosX != 8)
     {
-      if (map[bombPosY][bombPosX + 1] === 2 || map[bombPosY][bombPosX + 1] === 4 || map[bombPosY][bombPosX + 1] === 5)
+      if (map[bombPosY][bombPosX+1] === 1 || map[bombPosY][bombPosX+1] === 2
+        || map[bombPosY][bombPosX+1] === 4 || map[bombPosY][bombPosX+1] === 5)
       {
-        map[bombPosY][bombPosX + 1] = 1;
+        map[bombPosY][bombPosX + 1] = 7;
+        drawWorld();
+        setTimeout(function()
+        {
+          map[bombPosY][bombPosX + 1] = 1;
+          drawWorld();
+        }, 500)
       }
     }
 
     // explodes space to the left
     if (bombPosX != 0)
     {
-      if (map[bombPosY][bombPosX - 1] === 2 || map[bombPosY][bombPosX - 1] === 4   || map[bombPosY][bombPosX - 1] === 5)
+      if (map[bombPosY][bombPosX-1] === 1 || map[bombPosY][bombPosX-1] === 2
+        || map[bombPosY][bombPosX-1] === 4 || map[bombPosY][bombPosX-1] === 5)
       {
-        map[bombPosY][bombPosX - 1] = 1;
+        map[bombPosY][bombPosX - 1] = 7;
+        drawWorld();
+        setTimeout(function()
+        {
+          map[bombPosY][bombPosX - 1] = 1;
+          drawWorld();
+        }, 500)
       }
     }
 
     // explodes space below
     if (bombPosY != 8)
     {
-      if (map[bombPosY + 1][bombPosX] === 2 || map[bombPosY + 1][bombPosX] === 4 || map[bombPosY + 1][bombPosX] === 5)
+      if (map[bombPosY+1][bombPosX] === 1 || map[bombPosY+1][bombPosX] === 2
+        || map[bombPosY+1][bombPosX] === 4 || map[bombPosY+1][bombPosX] === 5)
       {
-        map[bombPosY + 1][bombPosX] = 1;
+        map[bombPosY + 1][bombPosX] = 7;
+        drawWorld();
+        setTimeout(function()
+        {
+          map[bombPosY + 1][bombPosX] = 1;
+          drawWorld();
+        }, 500)
       }
     }
 
