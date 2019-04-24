@@ -42,15 +42,15 @@ h1{
   background-size: 100%;
 }
 
-.player{
+.player1{
   background-color: grey;
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Bomberman/Front/Bman_F_f00.png");
   background-size: 100% 100%;
   z-index: 20;
 }
 
-.goal{
-  background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Blocks/Portal.png");
+.player2{
+  background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Creep/Front/Creep_F_f00.png");
   background-size: 100%;
 }
 
