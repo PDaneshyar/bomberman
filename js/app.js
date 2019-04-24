@@ -129,18 +129,21 @@ function player1Control()
         break;
         // up
         case 38:
-        if(map[player1.y - 1][player1.x] === 1)
+        if (player1.y !== 0)
         {
-          if (map[player1.y][player1.x] === 6)
+          if(map[player1.y - 1][player1.x] === 1)
           {
-            player1.y--;
-            map[player1.y][player1.x] = 4;
-          }
-          else
-          {
-            map[player1.y][player1.x] = 1;
-            player1.y--;
-            map[player1.y][player1.x] = 4;
+            if (map[player1.y][player1.x] === 6)
+            {
+              player1.y--;
+              map[player1.y][player1.x] = 4;
+            }
+            else
+            {
+              map[player1.y][player1.x] = 1;
+              player1.y--;
+              map[player1.y][player1.x] = 4;
+            }
           }
         }
         break;
@@ -163,18 +166,21 @@ function player1Control()
         break;
         // down
         case 40:
-        if (map[player1.y + 1][player1.x] === 1)
+        if (player1.y !== 8)
         {
-          if (map[player1.y][player1.x] === 6)
+          if (map[player1.y + 1][player1.x] === 1)
           {
-            player1.y++;
-            map[player1.y][player1.x] = 4;
-          }
-          else
-          {
-            map[player1.y][player1.x] = 1;
-            player1.y++;
-            map[player1.y][player1.x] = 4;
+            if (map[player1.y][player1.x] === 6)
+            {
+              player1.y++;
+              map[player1.y][player1.x] = 4;
+            }
+            else
+            {
+              map[player1.y][player1.x] = 1;
+              player1.y++;
+              map[player1.y][player1.x] = 4;
+            }
           }
         }
         break;
@@ -182,7 +188,7 @@ function player1Control()
         if (map[player1.y][player1.x] !== 6)
         {
           map[player1.y][player1.x] = 6;
-          Bomb(player1, player1.y, player1.x);
+          Bomb(player1, player2, player1.y, player1.x);
         }
         break;
         default:
@@ -224,18 +230,21 @@ function player2Control()
         break;
         // up
         case 87:
-        if(map[player2.y - 1][player2.x] === 1)
+        if (player2.y !== 0)
         {
-          if (map[player2.y][player2.x] === 6)
+          if(map[player2.y - 1][player2.x] === 1)
           {
-            player2.y--;
-            map[player2.y][player2.x] = 5;
-          }
-          else
-          {
-            map[player2.y][player2.x] = 1;
-            player2.y--;
-            map[player2.y][player2.x] = 5;
+            if (map[player2.y][player2.x] === 6)
+            {
+              player2.y--;
+              map[player2.y][player2.x] = 5;
+            }
+            else
+            {
+              map[player2.y][player2.x] = 1;
+              player2.y--;
+              map[player2.y][player2.x] = 5;
+            }
           }
         }
         break;
@@ -258,18 +267,21 @@ function player2Control()
         break;
         // down
         case 83:
-        if (map[player2.y + 1][player2.x] === 1)
+        if (player2.y !== 8) 
         {
-          if (map[player2.y][player2.x] === 6)
+          if (map[player2.y + 1][player2.x] === 1)
           {
-            player2.y++;
-            map[player2.y][player2.x] = 5;
-          }
-          else
-          {
-            map[player2.y][player2.x] = 1;
-            player2.y++;
-            map[player2.y][player2.x] = 5;
+            if (map[player2.y][player2.x] === 6)
+            {
+              player2.y++;
+              map[player2.y][player2.x] = 5;
+            }
+            else
+            {
+              map[player2.y][player2.x] = 1;
+              player2.y++;
+              map[player2.y][player2.x] = 5;
+            }
           }
         }
         break;
@@ -277,7 +289,7 @@ function player2Control()
         if (map[player2.y][player2.x] !== 6)
         {
           map[player2.y][player2.x] = 6;
-          Bomb(player2,player2.y, player2.x);
+          Bomb(player1, player2, player2.y, player2.x);
         }
         break;
         default:
@@ -290,23 +302,23 @@ function player2Control()
 
 // function to spawn bomb on button press
 // bomb delay/blast effect
-function Bomb(player, bombPosY, bombPosX)
+function Bomb(player1, player2, bombPosY, bombPosX)
 {
   setTimeout(function()
   {
-    // destroys blocks/player1 to the right
     if (bombPosY != 0)
     {
       // explodes space above
-      if (map[bombPosY -1][bombPosX] === 2 || map[bombPosY -1][bombPosX] === 4)
+      if (map[bombPosY - 1][bombPosX] === 2 || map[bombPosY - 1][bombPosX] === 4 || map[bombPosY - 1][bombPosX] === 5)
       {
         map[bombPosY - 1][bombPosX] = 1;
       }
     }
 
+    // explodes space to the right
     if (bombPosX != 8)
     {
-      if (map[bombPosY][bombPosX+1] === 2 || map[bombPosY][bombPosX+1] === 4)
+      if (map[bombPosY][bombPosX + 1] === 2 || map[bombPosY][bombPosX + 1] === 4 || map[bombPosY][bombPosX + 1] === 5)
       {
         map[bombPosY][bombPosX + 1] = 1;
       }
@@ -315,7 +327,7 @@ function Bomb(player, bombPosY, bombPosX)
     // explodes space to the left
     if (bombPosX != 0)
     {
-      if (map[bombPosY][bombPosX-1] === 2 || map[bombPosY][bombPosX-1] === 4)
+      if (map[bombPosY][bombPosX - 1] === 2 || map[bombPosY][bombPosX - 1] === 4   || map[bombPosY][bombPosX - 1] === 5)
       {
         map[bombPosY][bombPosX - 1] = 1;
       }
@@ -324,7 +336,7 @@ function Bomb(player, bombPosY, bombPosX)
     // explodes space below
     if (bombPosY != 8)
     {
-      if (map[bombPosY +1][bombPosX] === 2 || map[bombPosY +1][bombPosX] === 4)
+      if (map[bombPosY + 1][bombPosX] === 2 || map[bombPosY + 1][bombPosX] === 4 || map[bombPosY + 1][bombPosX] === 5)
       {
         map[bombPosY + 1][bombPosX] = 1;
       }
@@ -332,7 +344,8 @@ function Bomb(player, bombPosY, bombPosX)
 
     map[bombPosY][bombPosX] = 1;
     drawWorld();
-    LivesCount(player)
+    LivesCount(player1);
+    LivesCount(player2);
 
   }, 1000);
 }
@@ -340,7 +353,6 @@ function Bomb(player, bombPosY, bombPosX)
 // decrements lives and alters score display
 function LivesCount(player)
 {
-  console.log("test");
   if (player.name === "Player1" && playerDead(player))
   {
     if (player1.lives > 0)
@@ -351,7 +363,6 @@ function LivesCount(player)
       player1.lives--;
       $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
       drawWorld();
-      console.log(map);
     }
     else if (player1.lives === 0)
     {
@@ -370,7 +381,6 @@ function LivesCount(player)
       player2.lives--;
       $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
       drawWorld();
-      console.log(map);
     }
     else if (player2.lives === 0)
     {
@@ -384,13 +394,13 @@ function LivesCount(player)
 // checks if player1 is dead
 function playerDead(player)
 {
-  var dead = false;
+  var dead = true;
 
   for (var i = 0; i < map.length; i++)
   {
     if (map[i].includes(player.indicator))
     {
-      dead = true;
+      dead = false;
     }
   }
 
