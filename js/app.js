@@ -6,6 +6,7 @@
 // 5 = <div class="player2"></div>
 // 6 = <div class="bomb"></div>
 // 7 = <div class="flame"></div>
+// 8 = <div class="bombUpgrade"></div>
 
 var map = [[4,1,0,0,0,0,0,0,0],
            [1,3,0,3,0,3,0,3,0],
@@ -17,8 +18,8 @@ var map = [[4,1,0,0,0,0,0,0,0],
            [0,3,0,3,0,3,0,3,1],
            [0,0,0,0,0,0,0,1,5]];
 
-var player1 = {name: "Player1", indicator: 4, lives: 2, x: 0, y: 0};
-var player2 = {name: "Player2", indicator: 5, lives: 2, x: 8, y: 8};
+var player1 = {name: "Player1", indicator: 4, lives: 2, bombs: 1, range: 1, x: 0, y: 0};
+var player2 = {name: "Player2", indicator: 5, lives: 2, bombs: 1, range: 1, x: 8, y: 8};
 
 $(function()
 {
@@ -99,12 +100,17 @@ function drawWorld()
       }
       else if (map[i][j] === 6)
       {
-        $(`#world`).append(`<img class="bomb">`);
+        $(`#world`).append(`<div class="bomb" id="a${i}${j}"></div>`);
         absolutePositions(i,j);
       }
       else if (map[i][j] === 7)
       {
         $("#world").append(`<div class="flame" id="a${i}${j}"></div>`);
+        absolutePositions(i,j);
+      }
+      else if (map[i][j] === 8)
+      {
+        $("#world").append(`<div class="bombUpgrade" id="a${i}${j}"></div>`);
         absolutePositions(i,j);
       }
     }
@@ -123,83 +129,100 @@ function player1Control()
         // left
         case 37:
         // if the space you want to move to is free
-        if (map[player1.y][player1.x - 1] === 1)
+        if (map[player1.y][player1.x - 1] === 1 ||
+           map[player1.y][player1.x - 1] === 8)
         {
-          // if a bomb has been dropped then tile will remain a bomb
-          if (map[player1.y][player1.x] === 6)
+          // if the space you move to is a powerup
+          if (map[player1.y][player1.x - 1] === 8)
+          {
+            player1.bombs++;
+          }
+          // tile will remain a bomb after moving
+          else if (map[player1.y][player1.x] === 6)
           {
             player1.x--;
             map[player1.y][player1.x] = 4;
+            break;
           }
-          // if no bomb placed tile you move from will be empty
-          else
-          {
-            map[player1.y][player1.x] = 1;
-            player1.x--;
-            map[player1.y][player1.x] = 4;
-          }
+
+          map[player1.y][player1.x] = 1;
+          player1.x--;
+          map[player1.y][player1.x] = 4;
         }
         break;
         // up
         case 38:
         if (player1.y !== 0)
         {
-          if(map[player1.y - 1][player1.x] === 1)
+          if(map[player1.y - 1][player1.x] === 1 ||
+            map[player1.y - 1][player1.x] === 8 )
           {
-            if (map[player1.y][player1.x] === 6)
+            if (map[player1.y - 1][player1.x] === 8)
+            {
+              player1.bombs++;
+            }
+            else if (map[player1.y][player1.x] === 6)
             {
               player1.y--;
               map[player1.y][player1.x] = 4;
+              break;
             }
-            else
-            {
-              map[player1.y][player1.x] = 1;
-              player1.y--;
-              map[player1.y][player1.x] = 4;
-            }
+
+            map[player1.y][player1.x] = 1;
+            player1.y--;
+            map[player1.y][player1.x] = 4;
           }
         }
         break;
         // right
         case 39:
-        if (map[player1.y][player1.x + 1] === 1)
+        if (map[player1.y][player1.x + 1] === 1 ||
+            map[player1.y][player1.x + 1] === 8)
         {
-          if (map[player1.y][player1.x] === 6)
+          if (map[player1.y][player1.x + 1] === 8)
+          {
+            player1.bombs++;
+          }
+          else if (map[player1.y][player1.x] === 6)
           {
             player1.x++;
             map[player1.y][player1.x] = 4;
+            break;
           }
-          else
-          {
-            map[player1.y][player1.x] = 1;
-            player1.x++;
-            map[player1.y][player1.x] = 4;
-          }
+
+          map[player1.y][player1.x] = 1;
+          player1.x++;
+          map[player1.y][player1.x] = 4;
         }
         break;
         // down
         case 40:
         if (player1.y !== 8)
         {
-          if (map[player1.y + 1][player1.x] === 1)
+          if (map[player1.y + 1][player1.x] === 1 ||
+            map[player1.y + 1][player1.x] === 8)
           {
-            if (map[player1.y][player1.x] === 6)
+            if (map[player1.y + 1][player1.x] === 8)
+            {
+              player1.bombs++;
+            }
+            else if (map[player1.y][player1.x] === 6)
             {
               player1.y++;
               map[player1.y][player1.x] = 4;
+              break;
             }
-            else
-            {
-              map[player1.y][player1.x] = 1;
-              player1.y++;
-              map[player1.y][player1.x] = 4;
-            }
+
+            map[player1.y][player1.x] = 1;
+            player1.y++;
+            map[player1.y][player1.x] = 4;
           }
         }
         break;
         case 32:
-        if (map[player1.y][player1.x] !== 6)
+        if (map[player1.y][player1.x] !== 6 && player1.bombs > 0)
         {
+          player1.bombs--;
           map[player1.y][player1.x] = 6;
           Bomb(player1, player2, player1.y, player1.x);
         }
@@ -212,7 +235,7 @@ function player1Control()
   }
 }
 
-// function to control player2 with
+// function to control player2 with wasd keys
 function player2Control()
 {
   document.onkeyup = function(e)
@@ -224,83 +247,104 @@ function player2Control()
         // left
         case 65:
         // if the space you want to move to is free
-        if (map[player2.y][player2.x - 1] === 1)
+        if (map[player2.y][player2.x - 1] === 1 ||
+          map[player2.y][player2.x - 1] === 8)
         {
+          // if its a powerup then increase bombs
+          if (map[player2.y][player2.x - 1] === 8)
+          {
+            player2.bombs++;
+          }
           // if a bomb has been dropped then tile will remain a bomb
-          if (map[player2.y][player2.x] === 6)
+          // will break out of the switch statement
+          else if (map[player2.y][player2.x] === 6)
           {
             player2.x--;
             map[player2.y][player2.x] = 5;
+            break;
           }
-          // if no bomb placed tile you move from will be empty
-          else
-          {
-            map[player2.y][player2.x] = 1;
-            player2.x--;
-            map[player2.y][player2.x] = 5;
-          }
+
+          map[player2.y][player2.x] = 1;
+          player2.x--;
+          map[player2.y][player2.x] = 5;
         }
         break;
         // up
         case 87:
         if (player2.y !== 0)
         {
-          if(map[player2.y - 1][player2.x] === 1)
+          if(map[player2.y - 1][player2.x] === 1 ||
+            map[player2.y - 1][player2.x] === 8)
           {
-            if (map[player2.y][player2.x] === 6)
+            if (map[player2.y - 1][player2.x] === 8)
+            {
+              player2.bombs++;
+            }
+            else if (map[player2.y][player2.x] === 6)
             {
               player2.y--;
               map[player2.y][player2.x] = 5;
+              break;
             }
-            else
-            {
-              map[player2.y][player2.x] = 1;
-              player2.y--;
-              map[player2.y][player2.x] = 5;
-            }
+
+            map[player2.y][player2.x] = 1;
+            player2.y--;
+            map[player2.y][player2.x] = 5;
+
           }
         }
         break;
         // right
         case 68:
-        if (map[player2.y][player2.x + 1] === 1)
+        if (map[player2.y][player2.x + 1] === 1 ||
+          map[player2.y][player2.x + 1] === 8)
         {
-          if (map[player2.y][player2.x] === 6)
+          if (map[player2.y][player2.x + 1] === 8)
+          {
+            player2.bombs++;
+          }
+          else if (map[player2.y][player2.x] === 6)
           {
             player2.x++;
             map[player2.y][player2.x] = 5;
+            break;
           }
-          else
-          {
-            map[player2.y][player2.x] = 1;
-            player2.x++;
-            map[player2.y][player2.x] = 5;
-          }
+
+          map[player2.y][player2.x] = 1;
+          player2.x++;
+          map[player2.y][player2.x] = 5;
+
         }
         break;
         // down
         case 83:
         if (player2.y !== 8)
         {
-          if (map[player2.y + 1][player2.x] === 1)
+          if (map[player2.y + 1][player2.x] === 1 ||
+            map[player2.y + 1][player2.x] === 8)
           {
-            if (map[player2.y][player2.x] === 6)
+            if (map[player2.y + 1][player2.x] === 8)
+            {
+              player2.bombs++;
+            }
+            else if (map[player2.y][player2.x] === 6)
             {
               player2.y++;
               map[player2.y][player2.x] = 5;
+              break;
             }
-            else
-            {
-              map[player2.y][player2.x] = 1;
-              player2.y++;
-              map[player2.y][player2.x] = 5;
-            }
+
+            map[player2.y][player2.x] = 1;
+            player2.y++;
+            map[player2.y][player2.x] = 5;
+
           }
         }
         break;
         case 82:
         if (map[player2.y][player2.x] !== 6)
         {
+          player2.bombs--;
           map[player2.y][player2.x] = 6;
           Bomb(player1, player2, player2.y, player2.x);
         }
@@ -313,74 +357,125 @@ function player2Control()
   }
 }
 
-// function to spawn bomb on button press
 // bomb delay/blast effect
 function Bomb(player1, player2, bombPosY, bombPosX)
 {
+
   setTimeout(function()
   {
-
     // explodes space above
     if (bombPosY != 0)
     {
-      if (map[bombPosY-1][bombPosX] === 1 || map[bombPosY-1][bombPosX] === 2
-        || map[bombPosY-1][bombPosX] === 4 || map[bombPosY-1][bombPosX] === 5)
+      if (map[bombPosY-1][bombPosX] !== 3)
       {
-        map[bombPosY - 1][bombPosX] = 7;
-        drawWorld();
-        setTimeout(function()
+        if (map[bombPosY - 1][bombPosX] === 2 &&
+          Math.floor(Math.random() * 8) === 7)
         {
-          map[bombPosY - 1][bombPosX] = 1;
+          map[bombPosY - 1][bombPosX] = 7;
           drawWorld();
-        }, 500)
+          setTimeout(function()
+          {
+            map[bombPosY - 1][bombPosX] = 8;
+            drawWorld();
+          }, 600)
+        }
+        else
+        {
+          map[bombPosY - 1][bombPosX] = 7;
+          drawWorld();
+          setTimeout(function()
+          {
+            map[bombPosY - 1][bombPosX] = 1;
+            drawWorld();
+          }, 600)
+        }
       }
     }
 
     // explodes space to the right
     if (bombPosX != 8)
     {
-      if (map[bombPosY][bombPosX+1] === 1 || map[bombPosY][bombPosX+1] === 2
-        || map[bombPosY][bombPosX+1] === 4 || map[bombPosY][bombPosX+1] === 5)
+      if (map[bombPosY][bombPosX+1] !== 3)
       {
-        map[bombPosY][bombPosX + 1] = 7;
-        drawWorld();
-        setTimeout(function()
+        if (map[bombPosY][bombPosX+1] === 2 &&
+          Math.floor(Math.random() * 8) === 7)
         {
-          map[bombPosY][bombPosX + 1] = 1;
+          map[bombPosY][bombPosX+1] = 7;
           drawWorld();
-        }, 500)
+          setTimeout(function()
+          {
+            map[bombPosY][bombPosX+1] = 8;
+            drawWorld();
+          }, 600)
+        }
+        else
+        {
+          map[bombPosY][bombPosX+1] = 7;
+          drawWorld();
+          setTimeout(function()
+          {
+            map[bombPosY][bombPosX+1] = 1;
+            drawWorld();
+          }, 600)
+        }
       }
     }
 
     // explodes space to the left
     if (bombPosX != 0)
     {
-      if (map[bombPosY][bombPosX-1] === 1 || map[bombPosY][bombPosX-1] === 2
-        || map[bombPosY][bombPosX-1] === 4 || map[bombPosY][bombPosX-1] === 5)
+      if (map[bombPosY][bombPosX-1] !== 3)
       {
-        map[bombPosY][bombPosX - 1] = 7;
-        drawWorld();
-        setTimeout(function()
+        if (map[bombPosY][bombPosX-1] === 2 &&
+          Math.floor(Math.random() * 8) === 7)
         {
-          map[bombPosY][bombPosX - 1] = 1;
+          map[bombPosY][bombPosX-1] = 7;
           drawWorld();
-        }, 500)
+          setTimeout(function()
+          {
+            map[bombPosY][bombPosX-1] = 8;
+            drawWorld();
+          }, 600)
+        }
+        else
+        {
+          map[bombPosY][bombPosX-1] = 7;
+          drawWorld();
+          setTimeout(function()
+          {
+            map[bombPosY][bombPosX-1] = 1;
+            drawWorld();
+          }, 600)
+        }
       }
     }
 
     // explodes space below
     if (bombPosY != 8)
     {
-      if (map[bombPosY+1][bombPosX] === 1 || map[bombPosY+1][bombPosX] === 2
-        || map[bombPosY+1][bombPosX] === 4 || map[bombPosY+1][bombPosX] === 5)
+      if (map[bombPosY+1][bombPosX] !== 3)
       {
-        map[bombPosY + 1][bombPosX] = 7;
-        drawWorld();
-        setTimeout(function()
+        if (map[bombPosY + 1][bombPosX] === 2 &&
+          Math.floor(Math.random() * 8) === 7)
         {
-          map[bombPosY + 1][bombPosX] = 1;
+          map[bombPosY + 1][bombPosX] = 7;
           drawWorld();
-        }, 500)
+          setTimeout(function()
+          {
+            map[bombPosY + 1][bombPosX] = 8;
+            drawWorld();
+          }, 600)
+        }
+        else
+        {
+          map[bombPosY + 1][bombPosX] = 7;
+          drawWorld();
+          setTimeout(function()
+          {
+            map[bombPosY + 1][bombPosX] = 1;
+            drawWorld();
+          }, 600)
+        }
       }
     }
 
@@ -395,9 +490,9 @@ function Bomb(player1, player2, bombPosY, bombPosX)
 // decrements lives and alters score display
 function LivesCount(player)
 {
-  if (player.name === "Player1" && playerDead(player))
+  if (player.name === "Player1")
   {
-    if (player1.lives > 0)
+    if (player1.lives > 0 && playerDead(player))
     {
       map[0][0] = 4;
       player.x = 0;
@@ -406,16 +501,17 @@ function LivesCount(player)
       $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
       drawWorld();
     }
-    else if (player1.lives === 0)
+    else if (player1.lives === 0 && playerDead(player))
     {
       $("#p1lives").html("GAME OVER!!");
       $("#p2lives").html("WINNER!!");
       player1.lives--;
     }
+    player1.bombs++;
   }
-  else if (player.name === "Player2" && playerDead(player))
+  else if (player.name === "Player2")
   {
-    if (player2.lives > 0)
+    if (player2.lives > 0 && playerDead(player))
     {
       map[8][8] = 5;
       player.x = 8;
@@ -424,12 +520,13 @@ function LivesCount(player)
       $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
       drawWorld();
     }
-    else if (player2.lives === 0)
+    else if (player2.lives === 0 && playerDead(player))
     {
       $("#p2lives").html("GAME OVER!!");
       $("#p1lives").html("WINNER");
       player2.lives--;
     }
+    player2.bombs++;
   }
 }
 

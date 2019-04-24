@@ -34,6 +34,7 @@ h2{
   border: solid;
   margin: auto;
   background-color: olivedrab;
+  font-size: 1.5em;
   width: 540px;
   height: 540px;
   position: relative;
@@ -74,5 +75,10 @@ h2{
 .flame{
   background-color: orange;
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Flame/Flame_f00.png");
+  background-size: 100%;
+}
+
+.bombUpgrade{
+  background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Powerups/BombPowerup.png");
   background-size: 100%;
 }
