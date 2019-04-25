@@ -344,7 +344,7 @@ function player2Control()
           }
         }
         break;
-        case 82:
+        case 81:
         if (map[player2.y][player2.x] !== 6)
         {
           player2.bombs--;
@@ -585,7 +585,6 @@ function audio(index)
 // checks if player wants to play again
 function playAgain(winner)
 {
-
   var choice = prompt("Do you want to play again? Y/N").toLowerCase();
 
   if (choice === "y")
@@ -630,6 +629,7 @@ function playAgain(winner)
   }
   else
   {
+      // prevents players from moving
       player1.lives = -1;
       player2.lives = -1;
   }
