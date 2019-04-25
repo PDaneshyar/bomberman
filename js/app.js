@@ -21,6 +21,7 @@ var map = [[4,1,0,0,0,0,0,0,0],
 let player1 = new Player("Player1", 4, 2, 1, 0, 0, 0);
 let player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
 
+// main program
 $(function()
 {
 
