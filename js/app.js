@@ -21,11 +21,15 @@ var map = [[4,1,0,0,0,0,0,0,0],
 var player1 = {name: "Player1", indicator: 4, lives: 2, bombs: 1, range: 1, x: 0, y: 0};
 var player2 = {name: "Player2", indicator: 5, lives: 2, bombs: 1, range: 1, x: 8, y: 8};
 
+
 $(function()
 {
 
   $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
   $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
+
+  // lowering the sound of the bomb explosion
+  $("audio#sound-effects")[1].volume = 0.2;
 
   document.onkeyup = function(e)
   {
@@ -507,6 +511,7 @@ function LivesCount(player)
   {
     if (player1.lives > 0 && playerDead(player))
     {
+      audio(2);
       map[0][0] = 4;
       player.x = 0;
       player.y = 0;
@@ -516,6 +521,7 @@ function LivesCount(player)
     }
     else if (player1.lives === 0 && playerDead(player))
     {
+      audio(3);
       $("#p1lives").html("GAME OVER!!");
       $("#p2lives").html("WINNER!!");
       player1.lives--;
@@ -526,6 +532,7 @@ function LivesCount(player)
   {
     if (player2.lives > 0 && playerDead(player))
     {
+      audio(2);
       map[8][8] = 5;
       player.x = 8;
       player.y = 8;
@@ -535,6 +542,7 @@ function LivesCount(player)
     }
     else if (player2.lives === 0 && playerDead(player))
     {
+      audio(3);
       $("#p2lives").html("GAME OVER!!");
       $("#p1lives").html("WINNER");
       player2.lives--;
