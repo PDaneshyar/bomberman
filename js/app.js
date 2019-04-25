@@ -18,9 +18,8 @@ var map = [[4,1,0,0,0,0,0,0,0],
            [0,3,0,3,0,3,0,3,1],
            [0,0,0,0,0,0,0,1,5]];
 
-var player1 = {name: "Player1", indicator: 4, lives: 2, bombs: 1, range: 1, x: 0, y: 0};
-var player2 = {name: "Player2", indicator: 5, lives: 2, bombs: 1, range: 1, x: 8, y: 8};
-
+let player1 = new Player("Player1", 4, 2, 1, 0, 0);
+let player2 = new Player("Player2", 5, 2, 1, 8, 8);
 
 $(function()
 {
@@ -42,7 +41,6 @@ $(function()
       player2Control();
     }
   }
-
 })
 
 // draws the world with all the required tiles based on the map array
@@ -523,8 +521,9 @@ function LivesCount(player)
     {
       audio(3);
       $("#p1lives").html("GAME OVER!!");
-      $("#p2lives").html("WINNER!!");
+      $("#p2lives").html("Player 2 is the WINNER!!");
       player1.lives--;
+      setTimeout(() => {playAgain()}, 300);
     }
     player1.bombs++;
   }
@@ -544,8 +543,9 @@ function LivesCount(player)
     {
       audio(3);
       $("#p2lives").html("GAME OVER!!");
-      $("#p1lives").html("WINNER");
+      $("#p1lives").html("Player 1 is the WINNER");
       player2.lives--;
+      setTimeout(() => {playAgain()}, 300);
     }
     player2.bombs++;
   }
@@ -580,4 +580,46 @@ function absolutePositions(i, j)
 function audio(index)
 {
   $("audio#sound-effects")[index].play();
+}
+
+// checks if player wants to play again
+function playAgain()
+{
+  var choice = prompt("Do you want to play again? Y/N").toLowerCase();
+
+  if (choice === "y")
+  {
+
+    map = [[4,1,0,0,0,0,0,0,0],
+    [1,3,0,3,0,3,0,3,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,3,0,3,0,3,0,3,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,3,0,3,0,3,0,3,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,3,0,3,0,3,0,3,1],
+    [0,0,0,0,0,0,0,1,5]];
+
+    player1 = new Player("Player1", 4, 2, 1, 0, 0);
+    player2 = new Player("Player2", 5, 2, 1, 8, 8);
+
+    drawWorld();
+    audio(0);
+
+    $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
+    $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
+
+  }
+}
+
+// function to generate a player object
+function Player(name, indicator, lives, bombs, x, y)
+{
+  this.name = name;
+  this.indicator = indicator;
+  this.lives = lives;
+  this.bombs = bombs;
+  this.range = 1;
+  this.x = x;
+  this.y = y;
 }
