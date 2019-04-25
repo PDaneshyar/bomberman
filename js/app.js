@@ -610,6 +610,11 @@ function playAgain()
     $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
 
   }
+  else
+  {
+      player1.lives = -1;
+      player2.lives = -1;
+  }
 }
 
 // function to generate a player object
