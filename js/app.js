@@ -18,8 +18,8 @@ var map = [[4,1,0,0,0,0,0,0,0],
            [0,3,0,3,0,3,0,3,1],
            [0,0,0,0,0,0,0,1,5]];
 
-let player1 = new Player("Player1", 4, 2, 1, 0, 0);
-let player2 = new Player("Player2", 5, 2, 1, 8, 8);
+let player1 = new Player("Player1", 4, 2, 1, 0, 0, 0);
+let player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
 
 $(function()
 {
@@ -523,7 +523,7 @@ function LivesCount(player)
       $("#p1lives").html("GAME OVER!!");
       $("#p2lives").html("Player 2 is the WINNER!!");
       player1.lives--;
-      setTimeout(() => {playAgain()}, 300);
+      setTimeout(() => {playAgain(player2)}, 300);
     }
     player1.bombs++;
   }
@@ -545,7 +545,7 @@ function LivesCount(player)
       $("#p2lives").html("GAME OVER!!");
       $("#p1lives").html("Player 1 is the WINNER");
       player2.lives--;
-      setTimeout(() => {playAgain()}, 300);
+      setTimeout(() => {playAgain(player1)}, 300);
     }
     player2.bombs++;
   }
@@ -583,13 +583,15 @@ function audio(index)
 }
 
 // checks if player wants to play again
-function playAgain()
+function playAgain(winner)
 {
+
   var choice = prompt("Do you want to play again? Y/N").toLowerCase();
 
   if (choice === "y")
   {
 
+    // resets the array to it's default values
     map = [[4,1,0,0,0,0,0,0,0],
     [1,3,0,3,0,3,0,3,0],
     [0,0,0,0,0,0,0,0,0],
@@ -600,14 +602,30 @@ function playAgain()
     [0,3,0,3,0,3,0,3,1],
     [0,0,0,0,0,0,0,1,5]];
 
-    player1 = new Player("Player1", 4, 2, 1, 0, 0);
-    player2 = new Player("Player2", 5, 2, 1, 8, 8);
+    // increases the winners win property value
+    if (winner.name === "Player1")
+    {
+      player1.wins++;
+      let wins = player1.wins;
+      player1 = new Player("Player1", 4, 2, 1, 0, 0, wins);
+      player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
+    }
+    else
+    {
+      player2.wins++;
+      let wins = player2.wins;
+      player1 = new Player("Player1", 4, 2, 1, 0, 0, 0);
+      player2 = new Player("Player2", 5, 2, 1, 8, 8, wins);
+    }
 
     drawWorld();
     audio(0);
 
+    // adds a new victories score to the display
     $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
+    $("#p1wins").html(`Victories: ${player1.wins}`)
     $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
+    $("#p2wins").html(`Victories: ${player2.wins}`)
 
   }
   else
@@ -618,7 +636,7 @@ function playAgain()
 }
 
 // function to generate a player object
-function Player(name, indicator, lives, bombs, x, y)
+function Player(name, indicator, lives, bombs, x, y, wins)
 {
   this.name = name;
   this.indicator = indicator;
@@ -627,4 +645,5 @@ function Player(name, indicator, lives, bombs, x, y)
   this.range = 1;
   this.x = x;
   this.y = y;
+  this.wins = wins;
 }
