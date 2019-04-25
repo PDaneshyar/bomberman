@@ -9,20 +9,22 @@ h1{
   text-align: center;
   font-size: 2.5em;
   color: cyan;
+  margin: none;
+  height: 50px;
 }
 
 #scoreboard{
-  color: cyan;
+  color: red;
   display: flex;
   justify-content: space-between;
 }
 
 #p1wins{
-  color: red;
+  color: lightgreen;
 }
 
 #p2wins{
-  color: red;
+  color: lightgreen;
 }
 
 #world div{
@@ -45,6 +47,14 @@ h1{
   width: 540px;
   height: 540px;
   position: relative;
+}
+
+.PlayerID{
+  height: 50px;
+  color: cyan;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .empty{

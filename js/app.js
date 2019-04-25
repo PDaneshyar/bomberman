@@ -25,8 +25,8 @@ let player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
 $(function()
 {
 
-  $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
-  $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
+  $("#p1lives").html(`Lives: ${player1.lives}`);
+  $("#p2lives").html(`Lives: ${player2.lives}`);
 
   // lowering the sound of the bomb explosion
   $("audio#sound-effects")[1].volume = 0.2;
@@ -515,7 +515,7 @@ function LivesCount(player)
       player.x = 0;
       player.y = 0;
       player1.lives--;
-      $("#p1lives").html(`Player 1 Lives: ${player1.lives}`);
+      $("#p1lives").html(`Lives: ${player1.lives}`);
       drawWorld();
     }
     else if (player1.lives === 0 && playerDead(player))
@@ -537,7 +537,7 @@ function LivesCount(player)
       player.x = 8;
       player.y = 8;
       player2.lives--;
-      $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
+      $("#p2lives").html(`Lives: ${player2.lives}`);
       drawWorld();
     }
     else if (player2.lives === 0 && playerDead(player))
