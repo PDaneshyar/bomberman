@@ -31,6 +31,7 @@ $(function()
   {
     if (e.keyCode === 13)
     {
+      audio(0);
       drawWorld();
 
       player1Control();
@@ -366,11 +367,15 @@ function Bomb(player1, player2, bombPosY, bombPosX)
     // explodes space above
     if (bombPosY != 0)
     {
+      // checks if space is an undestroyable block
       if (map[bombPosY-1][bombPosX] !== 3)
       {
+        // random chance of a drop item
         if (map[bombPosY - 1][bombPosX] === 2 &&
           Math.floor(Math.random() * 8) === 7)
         {
+          // plays audio as bomb explodes
+          audio(1);
           map[bombPosY - 1][bombPosX] = 7;
           drawWorld();
           setTimeout(function()
@@ -379,8 +384,10 @@ function Bomb(player1, player2, bombPosY, bombPosX)
             drawWorld();
           }, 600)
         }
+        // if no drop item just make space an empty tile
         else
         {
+          audio(1);
           map[bombPosY - 1][bombPosX] = 7;
           drawWorld();
           setTimeout(function()
@@ -400,6 +407,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         if (map[bombPosY][bombPosX+1] === 2 &&
           Math.floor(Math.random() * 8) === 7)
         {
+          audio(1);
           map[bombPosY][bombPosX+1] = 7;
           drawWorld();
           setTimeout(function()
@@ -410,6 +418,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         }
         else
         {
+          audio(1);
           map[bombPosY][bombPosX+1] = 7;
           drawWorld();
           setTimeout(function()
@@ -429,6 +438,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         if (map[bombPosY][bombPosX-1] === 2 &&
           Math.floor(Math.random() * 8) === 7)
         {
+          audio(1);
           map[bombPosY][bombPosX-1] = 7;
           drawWorld();
           setTimeout(function()
@@ -439,6 +449,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         }
         else
         {
+          audio(1);
           map[bombPosY][bombPosX-1] = 7;
           drawWorld();
           setTimeout(function()
@@ -458,6 +469,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         if (map[bombPosY + 1][bombPosX] === 2 &&
           Math.floor(Math.random() * 8) === 7)
         {
+          audio(1);
           map[bombPosY + 1][bombPosX] = 7;
           drawWorld();
           setTimeout(function()
@@ -468,6 +480,7 @@ function Bomb(player1, player2, bombPosY, bombPosX)
         }
         else
         {
+          audio(1);
           map[bombPosY + 1][bombPosX] = 7;
           drawWorld();
           setTimeout(function()
@@ -553,4 +566,10 @@ function absolutePositions(i, j)
     {'left': `${j * 60}px`,
      'top': `${i * 60}px`
    });
+}
+
+// returns the correct audio clip to play
+function audio(index)
+{
+  $("audio#sound-effects")[index].play();
 }
