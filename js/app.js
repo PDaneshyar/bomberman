@@ -552,7 +552,7 @@ function LivesCount(player)
   }
 }
 
-// checks if player1 is dead
+// checks if player is dead
 function playerDead(player)
 {
   var dead = true;
