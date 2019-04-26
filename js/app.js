@@ -25,12 +25,14 @@ let player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
 $(function()
 {
 
+  // displays the initial scoreboard
   $("#p1lives").html(`Lives: ${player1.lives}`);
   $("#p2lives").html(`Lives: ${player2.lives}`);
 
   // lowering the sound of the bomb explosion
   $("audio#sound-effects")[1].volume = 0.2;
 
+  // game startsonce someone hits enter
   document.onkeyup = function(e)
   {
     if (e.keyCode === 13)
