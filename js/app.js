@@ -586,10 +586,18 @@ function audio(index)
 // checks if player wants to play again
 function playAgain(winner)
 {
-  var choice = prompt("Do you want to play again? Y/N").toLowerCase();
+  // prevents players from moving
+  player1.lives = -1;
+  player2.lives = -1;
 
-  if (choice === "y")
+  // hides the game world and displays a play again button
+  $("#world").hide();
+  $("body").append(`<button type="button" id="play-again" name="button"> Play Again</button>`)
+
+  $(`#play-again`).click(function()
   {
+    // deletes the play again button
+    $("#play-again").remove();
 
     // resets the array to it's default values
     map = [[4,1,0,0,0,0,0,0,0],
@@ -619,6 +627,7 @@ function playAgain(winner)
     }
 
     drawWorld();
+    $("#world").show();
     audio(0);
 
     // adds a new victories score to the display
@@ -626,14 +635,7 @@ function playAgain(winner)
     $("#p1wins").html(`Victories: ${player1.wins}`)
     $("#p2lives").html(`Player 2 Lives: ${player2.lives}`);
     $("#p2wins").html(`Victories: ${player2.wins}`)
-
-  }
-  else
-  {
-      // prevents players from moving
-      player1.lives = -1;
-      player2.lives = -1;
-  }
+  })
 }
 
 // function to generate a player object

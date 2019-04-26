@@ -49,6 +49,22 @@ h1{
   position: relative;
 }
 
+#play-again{
+  height: 70px;
+  width: 150px;
+  background-color: blue;
+  color: white;
+  margin-left: 45%;
+  margin-right: 45%;
+  font-size: 1.5em;
+}
+
+#play-again:hover{
+  color: cyan;
+  background: grey;
+  border: solid 1px;
+}
+
 .PlayerID{
   height: 50px;
   color: cyan;
