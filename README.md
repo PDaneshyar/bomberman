@@ -44,7 +44,7 @@ var map = [[4,1,0,0,0,0,0,0,0],         // make an array for displaying the map
 Each time an action takes place the values are changed accordingly and the world is redrawn to match. 
 Each div is styled with CSS to look like the approriate elements.
 
-![screenshot of game](bomberman/images/Screenshot.png)
+![screenshot of game](images/Screenshot.png)
 
 ## Bugs
 * player icon does not display until moved if killed on its' starting tile
