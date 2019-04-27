@@ -6,12 +6,15 @@ The task was to design a browser-based game using CSS, HTML, Javascript and Jque
 The time period was 5 days to complete the project.
 
 ## Functionality
-My game is based on the classic Bomberman and is a two player game.
-The aim is to blow up the other player until they run out of lives.
-The map is randomly generated every time. 
-The players are able to move, destroy blocks and each other as well as collect powerups.
-The lives and number of wins for each player are displayed on screen.
-The game features audio as well.
+My game is based on the classic Bomberman and is a two player game. The aim is to blow up the other player until they run out of lives.
+
+Main functionality:
+
+* The map is randomly generated every time.                  
+* The players are able to move, destroy blocks and each other as well as collect powerups.                        
+* Players can enter their own names to display on screen.   
+* The lives and number of wins for each player are displayed on screen.                                      
+* The game features audio as well.
 
 ## Planning and Implementation 
 Initially the design was for the most basic requirements to be met, these were: 

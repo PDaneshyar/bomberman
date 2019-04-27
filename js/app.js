@@ -26,6 +26,30 @@ var pause = false;
 // main program
 $(function()
 {
+  $("#p1-submit").click(function()
+  {
+    event.preventDefault();
+    if($("#p1name").val().length > 0)
+    {
+      var p1name = $("#p1name").val();
+      $("#p1").html(p1name);
+      $(".p1-nameInput").hide();
+      $("#p1").show();
+    }
+  })
+
+  $("#p2-submit").click(function()
+  {
+    event.preventDefault();
+    if($("#p2name").val().length > 0)
+    {
+      var p2name = $("#p2name").val();
+      $("#p2").html(p2name);
+      $(".p2-nameInput").hide();
+      $("#p2").show();
+    }
+  })
+
   $("#pause").hide();
 
   // displays the initial scoreboard
@@ -131,6 +155,7 @@ function player1Control()
 {
   document.onkeydown = function(e)
   {
+    // if the player is alive and the game is not paused
     if (player1.lives >= 0 && !pause)
     {
       switch (e.keyCode)
@@ -241,7 +266,7 @@ function player1Control()
       }
       drawWorld();
     }
-    
+
     // pause button can be pressed at anytime
     if (e.keyCode === 80)
     {

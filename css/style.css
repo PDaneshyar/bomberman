@@ -84,6 +84,35 @@ h1{
   justify-content: space-around;
 }
 
+.PlayerID h2{
+  display: none;
+}
+
+#p1-submit{
+  background-color: blue;
+  color: white;
+  border: black;
+  height: 25px;
+  width: 60px;
+}
+
+#p1name{
+  height: 20px;
+}
+
+#p2-submit{
+  background-color: blue;
+  color: white;
+  border: black;
+  border-radius: 10%;
+  height: 25px;
+  width: 60px;
+}
+
+#p2name{
+  height: 20px;
+}
+
 .empty{
   background-image: url("../images/Bombing_Chap_Sprite_Set/Sprites/Blocks/BackgroundTile.png");
   background-size: 100%;
