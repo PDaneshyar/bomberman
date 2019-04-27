@@ -21,9 +21,12 @@ var map = [[4,1,0,0,0,0,0,0,0],
 let player1 = new Player("Player1", 4, 2, 1, 0, 0, 0);
 let player2 = new Player("Player2", 5, 2, 1, 8, 8, 0);
 
+var pause = false;
+
 // main program
 $(function()
 {
+  $("#pause").hide();
 
   // displays the initial scoreboard
   $("#p1lives").html(`Lives: ${player1.lives}`);
@@ -128,7 +131,7 @@ function player1Control()
 {
   document.onkeydown = function(e)
   {
-    if (player1.lives >= 0)
+    if (player1.lives >= 0 && !pause)
     {
       switch (e.keyCode)
       {
@@ -238,6 +241,12 @@ function player1Control()
       }
       drawWorld();
     }
+
+    // pause button can be pressed at anytime
+    if (e.keyCode === 80)
+    {
+      pauseGame();
+    }
   }
 }
 
@@ -246,7 +255,7 @@ function player2Control()
 {
   document.onkeyup = function(e)
   {
-    if (player2.lives >= 0)
+    if (player2.lives >= 0 && !pause)
     {
       switch (e.keyCode)
       {
@@ -651,4 +660,22 @@ function Player(name, indicator, lives, bombs, x, y, wins)
   this.x = x;
   this.y = y;
   this.wins = wins;
+}
+
+// pauses the game and hides the map
+function pauseGame()
+{
+  
+  if (pause === false)
+  {
+    $("#world").hide();
+    $("#pause").show();
+    pause = true;
+  }
+  else if (pause === true)
+  {
+    $("#pause").hide();
+    $("#world").show();
+    pause = false;
+  }
 }

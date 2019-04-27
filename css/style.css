@@ -49,6 +49,17 @@ h1{
   position: relative;
 }
 
+#pause{
+  display: flex;
+  width: 540px;
+  height: 540px;
+  background-color: olivedrab;
+  margin: auto;
+  border: solid;
+  justify-content: center;
+  align-items: center;
+}
+
 #play-again{
   height: 70px;
   width: 150px;
