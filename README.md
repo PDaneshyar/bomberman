@@ -56,4 +56,4 @@ Each div is styled with CSS to look like the approriate elements.
 ## Future improvements
 * more powerups to increase flame range of bombs
 * option to have more players
-* pause option
+* pause option - completed

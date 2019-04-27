@@ -241,7 +241,7 @@ function player1Control()
       }
       drawWorld();
     }
-
+    
     // pause button can be pressed at anytime
     if (e.keyCode === 80)
     {
@@ -665,7 +665,7 @@ function Player(name, indicator, lives, bombs, x, y, wins)
 // pauses the game and hides the map
 function pauseGame()
 {
-  
+
   if (pause === false)
   {
     $("#world").hide();
