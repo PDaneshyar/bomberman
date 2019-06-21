@@ -1,5 +1,7 @@
 # Bomberman
 
+## Play it
+[To play the game click me](https://pdaneshyar.github.io/bomberman/)
 
 ## Objective
 The task was to design a browser-based game using CSS, HTML, Javascript and Jquery.
@@ -52,9 +54,6 @@ Each div is styled with CSS to look like the approriate elements.
 ## Bugs
 * player icon does not display until moved if killed on its' starting tile
 * display does not resize when screen size changes
-
-## Play it
-[To play the game click me](https://pdaneshyar.github.io/bomberman/)
 
 ## Future improvements
 * more powerups to increase flame range of bombs
